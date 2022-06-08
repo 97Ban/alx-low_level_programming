@@ -1,5 +1,5 @@
-#ifindfALX
-#defineALX
+#ifindef ALX
+#define ALX
 
 int_putchar(char c);
 

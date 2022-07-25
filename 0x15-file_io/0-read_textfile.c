@@ -1,25 +1,32 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "main.h"
 
 
 /**
- *  * main - check the code for ALX School students.
- *   *
- *    * Return: Always 0.
- *     */
-int main(int ac, char **av)
+ * read_textfile - Reads a text file and
+ * writes to standard output (POSIX)
+ * @filename: pointer to filename
+ * @letters: number of leeters to read
+ *
+ * Return: 0 (Fail) or number of letters read
+ */
+ssize_t read_textfile(const char *filename, size_t letters)
 {
-	    ssize_t n;
+	ssize_t bytes_read = 0;
+	int fd;
+	char *buf = malloc(sizeof(char) * letters);
 
-	        if (ac != 2)
-			    {
-				            dprintf(2, "Usage: %s filename\n", av[0]);
-					            exit(1);
-						        }
-		    n = read_textfile(av[1], 114);
-		        printf("\n(printed chars: %li)\n", n);
-			    n = read_textfile(av[1], 1024);
-			        printf("\n(printed chars: %li)\n", n);
-				    return (0);
+	if (filename == NULL || !buf)
+		return (0);
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+		return (0);
+	bytes_read = read(fd, buf, letters);
+	if (bytes_read == -1)
+		return (0);
+	bytes_read = write(STDOUT_FILENO, buf, bytes_read);
+	free(buf);
+	if (bytes_read == -1)
+		return (0);
+	close(fd);
+	return (bytes_read);
 }
